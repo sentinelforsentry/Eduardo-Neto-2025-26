@@ -17,7 +17,7 @@ describe("Blog Content Integrity", () => {
 
   it("validates that code snippets do not use double-escaped newlines", () => {
     // This acts as a linter for the specific antipattern found: .join("\\n")
-    const pagePath = path.resolve(__dirname, "../[slug]/page.tsx");
+    const pagePath = path.resolve(__dirname, "../[slug]/articleData.tsx");
     const content = fs.readFileSync(pagePath, "utf-8");
 
     // We look for .join("\\n") or .join('\\n')
