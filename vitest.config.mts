@@ -6,14 +6,15 @@ const rootDir = dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   test: {
-    environment: "node",
+    environment: "jsdom",
+    setupFiles: ["./vitest.setup.ts"],
     globals: true,
     pool: "threads",
     coverage: {
       reporter: ["text", "json", "html"],
       reportsDirectory: "./coverage/vitest",
     },
-    include: ["demos/**/__tests__/**/*.test.ts", "app/**/__tests__/**/*.test.ts"],
+    include: ["demos/**/__tests__/**/*.test.{ts,tsx}", "app/**/__tests__/**/*.test.{ts,tsx}"],
     alias: {
       "@": resolve(rootDir, "./"),
     },
