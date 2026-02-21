@@ -17,7 +17,7 @@ export default function RtkDemo() {
           <input
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            placeholder="Type to filter"
+            placeholder="Try 'alpha' or 'beta'"
             className="w-full rounded-md border border-white/10 bg-black/40 px-3 py-2 outline-none placeholder:text-zinc-400"
           />
           <button

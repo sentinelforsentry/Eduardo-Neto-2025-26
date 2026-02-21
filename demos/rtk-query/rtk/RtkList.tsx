@@ -86,14 +86,18 @@ export default function RtkList({ filter, api, tracker }: Props) {
       )}
 
       {items.length > 0 && (
-        <ul className="mt-2 grid grid-cols-1 gap-1 text-sm text-zinc-300">
-          {items.map((item) => (
-            <li key={`${filter}-${item.id}`} className="rounded-md bg-white/5 px-2 py-1">
-              <span className="text-white">{item.name}</span>
-              <span className="ml-2 text-zinc-400">({item.category})</span>
-            </li>
-          ))}
-        </ul>
+        <div className="mt-2 rounded-md bg-white/5 px-3 py-2 text-sm">
+          <p className="text-zinc-300">
+            Total items: <span className="font-semibold text-white">{items.length}</span>
+          </p>
+          <div className="mt-2 text-xs">
+            <span className="text-zinc-500">First item preview:</span>
+            <div className="mt-1 flex items-center gap-2 rounded border border-white/10 bg-black/50 px-2 py-1">
+              <span className="text-white">{items[0].name}</span>
+              <span className="text-zinc-400">({items[0].category})</span>
+            </div>
+          </div>
+        </div>
       )}
 
       <div className="mt-4">
