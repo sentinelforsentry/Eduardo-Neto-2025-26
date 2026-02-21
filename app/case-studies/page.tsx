@@ -16,9 +16,9 @@ export default function CaseStudies() {
           <h3 className="text-lg font-medium text-white">Financial Services Firm</h3>
           <p className="mt-2 text-sm text-zinc-400">~30% performance boost with RTK Query caching strategy.</p>
         </Link>
-        <Link href="/case-studies/commercial-banking" className="block rounded-xl border border-white/10 bg-black/45 backdrop-blur-sm shadow-lg shadow-black/40 p-5 transition hover:border-[#ff8820] hover:bg-black/55">
-          <h3 className="text-lg font-medium text-white">Commercial Banking Client</h3>
-          <p className="mt-2 text-sm text-zinc-400">Reusable components reduced dev-time by ~25%.</p>
+        <Link href="/case-studies/workflow-dashboard" className="block rounded-xl border border-white/10 bg-black/45 backdrop-blur-sm shadow-lg shadow-black/40 p-5 transition hover:border-[#ff8820] hover:bg-black/55">
+          <h3 className="text-lg font-medium text-white">Internal Workflow Dashboard</h3>
+          <p className="mt-2 text-sm text-zinc-400">Robust data grid & isolated form state for Commercial Banking.</p>
         </Link>
         <Link href="/case-studies/internal-project" className="block rounded-xl border border-white/10 bg-black/45 backdrop-blur-sm shadow-lg shadow-black/40 p-5 transition hover:border-[#ff8820] hover:bg-black/55">
           <h3 className="text-lg font-medium text-white">Internal Project</h3>
