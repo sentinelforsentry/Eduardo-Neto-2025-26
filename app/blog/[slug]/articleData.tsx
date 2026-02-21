@@ -600,7 +600,7 @@ function DefensiveReactArticle() {
     "  const avatar = user?.profile?.avatar;",
     "",
     "  return (",
-    "    <div className=\\\"flex items-center gap-3\\\">",
+    "    <div className=\"flex items-center gap-3\">",
     "      {avatar ? (",
     "        <img src={avatar} alt={name} />",
     "      ) : (",
