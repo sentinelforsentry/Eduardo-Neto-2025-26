@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { blogPosts } from "../posts";
 import fs from "fs";
 import path from "path";
-import { articleBySlug } from "../[slug]/page";
+import { articleBySlug } from "../[slug]/articleData";
 
 describe("Blog Content Integrity", () => {
   it("ensures all blog posts in registry have a renderer", () => {
@@ -19,7 +19,7 @@ describe("Blog Content Integrity", () => {
     // This acts as a linter for the specific antipattern found: .join("\\n")
     const pagePath = path.resolve(__dirname, "../[slug]/page.tsx");
     const content = fs.readFileSync(pagePath, "utf-8");
-    
+
     // We look for .join("\\n") or .join('\\n')
     // We strictly search for the specific double-escape sequence which causes the visual bug
     const doubleEscapedJoinDoubleQuote = /\.join\("\\\\n"\)/;
