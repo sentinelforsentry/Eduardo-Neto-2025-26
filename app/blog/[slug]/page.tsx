@@ -576,7 +576,7 @@ function DefensiveReactArticle() {
     "    return this.props.children;",
     "  }",
     "}",
-  ].join("\\n");
+  ].join("\n");
 
   const granularBoundariesCode = [
     "function Dashboard() {",
@@ -601,7 +601,7 @@ function DefensiveReactArticle() {
     "    </Layout>",
     "  );",
     "}",
-  ].join("\\n");
+  ].join("\n");
 
   const safePropAccessCode = [
     "// ❌ Fragile: assumes shape exists",
@@ -625,7 +625,7 @@ function DefensiveReactArticle() {
     "    </div>",
     "  );",
     "}",
-  ].join("\\n");
+  ].join("\n");
 
   const asyncBoundaryCode = [
     "function AsyncBoundary({ children, fallback, errorFallback }) {",
@@ -645,7 +645,7 @@ function DefensiveReactArticle() {
     ">",
     "  <DataTable />",
     "</AsyncBoundary>",
-  ].join("\\n");
+  ].join("\n");
 
   const retryPatternCode = [
     "function useRetryableFetch<T>(fetcher: () => Promise<T>) {",
@@ -675,7 +675,7 @@ function DefensiveReactArticle() {
     "",
     "  return { ...state, retry };",
     "}",
-  ].join("\\n");
+  ].join("\n");
 
   return (
     <>
@@ -1005,7 +1005,7 @@ function DefensiveReactArticle() {
   );
 }
 
-const articleBySlug: Record<string, () => JSX.Element> = {
+export const articleBySlug: Record<string, () => JSX.Element> = {
   "when-and-when-not-to-use-rtk-query": RtkQueryArticle,
   "defensive-react-uis-that-never-break": DefensiveReactArticle,
   "hidden-cost-of-react-re-renders": ReconciliationPerformanceArticle,
