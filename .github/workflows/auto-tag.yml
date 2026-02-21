@@ -13,7 +13,7 @@ jobs:
     name: Create Release Tag
     if: |
       github.event.pull_request.merged == true &&
-      github.event.pull_request.head.ref == 'dev'
+      (github.event.pull_request.head.ref == 'dev' || github.event.pull_request.head.ref == 'release-sync')
     runs-on: ubuntu-latest
     
     steps:
