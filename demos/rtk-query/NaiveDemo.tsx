@@ -16,7 +16,7 @@ export default function NaiveDemo() {
         <input
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
-          placeholder="Type to filter (causes both lists to fetch)"
+          placeholder="Try 'alpha' or 'beta' (causes both lists to fetch)"
           className="w-full rounded-md border border-white/10 bg-black/40 px-3 py-2 outline-none placeholder:text-zinc-400"
         />
         <button
