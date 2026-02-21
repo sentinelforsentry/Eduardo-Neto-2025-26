@@ -28,6 +28,10 @@ export default function CaseStudies() {
           <h3 className="text-lg font-medium text-white">Retail / Travel Brands</h3>
           <p className="mt-2 text-sm text-zinc-400">Legacy jQuery migration and A/B testing infrastructure.</p>
         </Link>
+        <Link href="/case-studies/travel-booking" className="block rounded-xl border border-white/10 bg-black/45 backdrop-blur-sm shadow-lg shadow-black/40 p-5 transition hover:border-[#ff8820] hover:bg-black/55">
+          <h3 className="text-lg font-medium text-white">Hospitality Booking Widget</h3>
+          <p className="mt-2 text-sm text-zinc-400">Interactive custom widget with complex interdependent state.</p>
+        </Link>
       </div>
     </div>
   );
