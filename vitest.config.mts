@@ -13,7 +13,7 @@ export default defineConfig({
       reporter: ["text", "json", "html"],
       reportsDirectory: "./coverage/vitest",
     },
-    include: ["demos/**/__tests__/**/*.test.ts"],
+    include: ["demos/**/__tests__/**/*.test.ts", "app/**/__tests__/**/*.test.ts"],
     alias: {
       "@": resolve(rootDir, "./"),
     },
