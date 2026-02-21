@@ -45,7 +45,7 @@ export default function RtkComparison() {
             only issues a single request per filter and serves the second list from cache.
           </li>
           <li>
-            <strong>Mutation test:</strong> Click the "Mutate first item" button in the RTK panel. Watch how the preview updates instantly and the network makes exactly one invalidation refresh. If you interact or type again, notice how cache hits increment as the newly-warmed data is reused without extra network calls.
+            <strong>Mutation test:</strong> Click the &quot;Mutate first item&quot; button in the RTK panel. Watch how the preview updates instantly and the network makes exactly one invalidation refresh. If you interact or type again, notice how cache hits increment as the newly-warmed data is reused without extra network calls.
           </li>
         </ol>
       </div>
@@ -64,7 +64,7 @@ export default function RtkComparison() {
       <div className="mt-8 rounded-xl border border-white/10 bg-zinc-900 p-6 text-sm text-zinc-300">
         <h3 className="mb-3 text-lg font-semibold text-white">What is happening in both lists for each panel?</h3>
         <p className="mb-4">
-          In modern React applications, it is very common for multiple disjoint components on the same screen to require the exact same piece of data (for example, a user's profile picture might be needed in both the top navigation bar and a sidebar).
+          In modern React applications, it is very common for multiple disjoint components on the same screen to require the exact same piece of data (for example, a user&apos;s profile picture might be needed in both the top navigation bar and a sidebar).
         </p>
         <p className="mb-4">
           The two lists simulate this real-world scenario where two different components ask for the exact same data at the exact same time:
@@ -78,7 +78,7 @@ export default function RtkComparison() {
           </li>
         </ul>
         <p>
-          Having two lists visibly proves that RTK Query solves the "N+1" redundant fetch problem out-of-the-box, saving significant bandwidth and computing power!
+          Having two lists visibly proves that RTK Query solves the &quot;N+1&quot; redundant fetch problem out-of-the-box, saving significant bandwidth and computing power!
         </p>
       </div>
     </div>
