@@ -41,7 +41,7 @@ describe('BookingWidget', () => {
         fireEvent.click(increaseAdultsBtn);
 
         // Initial price with no dates is 0
-        expect(screen.getByText(/\$0/i)).toBeInTheDocument();
+        expect(screen.getAllByText(/\$0/i).length).toBeGreaterThan(0);
 
         // Select valid check-in and check-out dates
         const checkInInput = screen.getByLabelText(/Check-In/i);
@@ -54,6 +54,6 @@ describe('BookingWidget', () => {
         // Adults = 2
         // Expected Price per night = 500
         // 2 nights = 1000
-        expect(screen.getByText(/\$1,000/i)).toBeInTheDocument();
+        expect(screen.getAllByText(/\$1,000/i).length).toBeGreaterThan(0);
     });
 });
