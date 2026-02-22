@@ -12,7 +12,7 @@ const Counter = memo(({ label, value, min, max, onChange }: {
             <span className="text-zinc-200 font-medium">{label}</span>
             <div className="flex items-center space-x-4">
                 <button
-                    className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-zinc-300 hover:border-[#ff8820] hover:text-white disabled:opacity-30 disabled:hover:border-white/10 focus:outline-none focus:ring-2 focus:ring-[#ff8820] transition-colors"
+                    className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-zinc-300 cursor-pointer hover:border-[#ff8820] hover:text-white disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:border-white/10 focus:outline-none focus:ring-2 focus:ring-[#ff8820] transition-colors"
                     onClick={() => onChange(value - 1)}
                     disabled={value <= min}
                     aria-label={`Decrease ${label}`}
@@ -23,7 +23,7 @@ const Counter = memo(({ label, value, min, max, onChange }: {
                     {value}
                 </span>
                 <button
-                    className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-zinc-300 hover:border-[#ff8820] hover:text-white disabled:opacity-30 disabled:hover:border-white/10 focus:outline-none focus:ring-2 focus:ring-[#ff8820] transition-colors"
+                    className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-zinc-300 cursor-pointer hover:border-[#ff8820] hover:text-white disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:border-white/10 focus:outline-none focus:ring-2 focus:ring-[#ff8820] transition-colors"
                     onClick={() => onChange(value + 1)}
                     disabled={value >= max}
                     aria-label={`Increase ${label}`}
@@ -41,33 +41,60 @@ const DatePicker = memo(({
 }: {
     checkIn: Date | null; checkOut: Date | null; onDatesChange: (ci: Date | null, co: Date | null) => void;
 }) => {
+    const formatDate = (d: Date | null) => {
+        if (!d) return '';
+        return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+    };
+
+    const calendarIcon = (
+        <svg className="w-4 h-4 text-zinc-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+        </svg>
+    );
+
     return (
-        <div className="flex flex-col space-y-4 py-3">
+        <div className="flex flex-col space-y-3 py-3">
             <div className="flex items-center justify-between">
                 <label htmlFor="checkin" className="text-zinc-200 font-medium">Check-In</label>
-                <input
-                    id="checkin"
-                    type="date"
-                    className="bg-black/60 text-white border border-white/10 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#ff8820] transition-all font-sans text-sm"
-                    value={checkIn ? checkIn.toISOString().split('T')[0] : ''}
-                    onChange={(e) => {
-                        const date = e.target.value ? new Date(e.target.value) : null;
-                        onDatesChange(date, checkOut);
-                    }}
-                />
+                <div className="relative">
+                    <div className="flex items-center gap-2 rounded-lg border border-white/10 bg-black/40 px-3 py-2 cursor-pointer hover:border-[#ff8820] transition-colors">
+                        {calendarIcon}
+                        <span className={`text-sm font-sans ${checkIn ? 'text-white' : 'text-zinc-500'}`}>
+                            {checkIn ? formatDate(checkIn) : 'Select date'}
+                        </span>
+                    </div>
+                    <input
+                        id="checkin"
+                        type="date"
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                        value={checkIn ? checkIn.toISOString().split('T')[0] : ''}
+                        onChange={(e) => {
+                            const date = e.target.value ? new Date(e.target.value) : null;
+                            onDatesChange(date, checkOut);
+                        }}
+                    />
+                </div>
             </div>
             <div className="flex items-center justify-between">
                 <label htmlFor="checkout" className="text-zinc-200 font-medium">Check-Out</label>
-                <input
-                    id="checkout"
-                    type="date"
-                    className="bg-black/60 text-white border border-white/10 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#ff8820] transition-all font-sans text-sm"
-                    value={checkOut ? checkOut.toISOString().split('T')[0] : ''}
-                    onChange={(e) => {
-                        const date = e.target.value ? new Date(e.target.value) : null;
-                        onDatesChange(checkIn, date);
-                    }}
-                />
+                <div className="relative">
+                    <div className="flex items-center gap-2 rounded-lg border border-white/10 bg-black/40 px-3 py-2 cursor-pointer hover:border-[#ff8820] transition-colors">
+                        {calendarIcon}
+                        <span className={`text-sm font-sans ${checkOut ? 'text-white' : 'text-zinc-500'}`}>
+                            {checkOut ? formatDate(checkOut) : 'Select date'}
+                        </span>
+                    </div>
+                    <input
+                        id="checkout"
+                        type="date"
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                        value={checkOut ? checkOut.toISOString().split('T')[0] : ''}
+                        onChange={(e) => {
+                            const date = e.target.value ? new Date(e.target.value) : null;
+                            onDatesChange(checkIn, date);
+                        }}
+                    />
+                </div>
             </div>
         </div>
     );
@@ -144,7 +171,7 @@ export function BookingWidget() {
                 onClick={handleOpen}
                 aria-expanded={isOpen}
                 aria-haspopup="dialog"
-                className="w-full rounded-xl border border-white/10 bg-black/40 p-6 shadow-lg shadow-black/40 flex flex-col items-start transition-all hover:bg-black/55 hover:border-[#ff8820] focus:outline-none focus:ring-2 focus:ring-[#ff8820]"
+                className="w-full rounded-xl border border-white/10 bg-black/40 p-6 shadow-lg shadow-black/40 flex flex-col items-start cursor-pointer transition-all hover:bg-black/55 hover:border-[#ff8820] focus:outline-none focus:ring-2 focus:ring-[#ff8820]"
             >
                 <span className="text-zinc-400 text-sm uppercase tracking-wider font-semibold mb-2">Book your stay</span>
                 <div className="flex justify-between w-full text-white text-lg font-medium">
@@ -181,7 +208,7 @@ export function BookingWidget() {
                             <button
                                 onClick={handleClose}
                                 aria-label="Close"
-                                className="text-zinc-400 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-[#ff8820] rounded p-1"
+                                className="text-zinc-400 hover:text-white cursor-pointer transition-colors focus:outline-none focus:ring-2 focus:ring-[#ff8820] rounded p-1"
                             >
                                 ✕
                             </button>
@@ -236,7 +263,7 @@ export function BookingWidget() {
                                 </span>
                             </div>
                             <button
-                                className="bg-[#ff8820] hover:brightness-110 text-black px-6 py-3 rounded-lg font-semibold shadow-lg transition-all active:scale-95 focus:outline-none focus:ring-4 focus:ring-[#ff8820]/40"
+                                className="bg-[#ff8820] hover:brightness-110 text-black px-6 py-3 rounded-lg font-semibold shadow-lg cursor-pointer transition-all active:scale-95 focus:outline-none focus:ring-4 focus:ring-[#ff8820]/40"
                                 onClick={handleClose}
                             >
                                 Save

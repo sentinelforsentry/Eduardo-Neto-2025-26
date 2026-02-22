@@ -8,7 +8,7 @@ export default function TravelBookingCaseStudy() {
             <h1 className="text-3xl font-bold text-white">Hospitality Booking Widget</h1>
             <p className="mt-2 text-zinc-400">Client: Global Retail, Travel, and Media Brands</p>
             <div className="mt-6 grid gap-4 text-sm text-zinc-300 sm:grid-cols-3">
-                <div><span className="text-zinc-400">Role:</span> Front-End Engineer</div>
+                <div><span className="text-zinc-400">Role:</span> Frontend Developer</div>
                 <div><span className="text-zinc-400">Tech:</span> React, TypeScript, Custom Hooks</div>
                 <div><span className="text-zinc-400">Outcome:</span> Accessible, performant booking UI</div>
             </div>
@@ -37,7 +37,7 @@ export default function TravelBookingCaseStudy() {
                 </Link>
                 <Link
                     href="/demos"
-                    className="rounded-md border border-white/10 px-4 py-2 text-sm text-zinc-200 hover:bg-white/10"
+                    className="rounded-md border border-white/10 bg-white/10 px-4 py-2 text-sm text-white hover:bg-white/20"
                 >
                     All demos
                 </Link>
