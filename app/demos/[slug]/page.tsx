@@ -5,6 +5,9 @@ import RtkTestsOverview from "@/demos/rtk-query/RtkTestsOverview";
 import BookingDemoPane from "@/demos/travel-booking/BookingDemoPane";
 import BookingCodeOverview from "@/demos/travel-booking/BookingCodeOverview";
 import BookingTestsOverview from "@/demos/travel-booking/BookingTestsOverview";
+import WorkflowDashboardDemoTab from "@/demos/workflow-dashboard/WorkflowDashboardDemoTab";
+import WorkflowDashboardCodeTab from "@/demos/workflow-dashboard/WorkflowDashboardCodeTab";
+import WorkflowDashboardTestsTab from "@/demos/workflow-dashboard/WorkflowDashboardTestsTab";
 import type { ReactNode } from "react";
 
 type PageProps = {
@@ -50,6 +53,18 @@ const DEMO_CONTENT: Record<string, DemoConfig> = {
       demo: <RtkComparison />,
       code: <RtkCodeOverview />,
       tests: <RtkTestsOverview />,
+    },
+  },
+  "workflow-dashboard": {
+    title: "Workflow Dashboard",
+    summary:
+      "A compound DataGrid with a contextual slide-over edit form demonstrating strict local-vs-global state isolation, mock API delays, and error handling.",
+    supporting:
+      "Click a row, edit the form, and observe that changes only propagate to the grid on a successful save. Use the error checkbox to test failure paths.",
+    tabs: {
+      demo: <WorkflowDashboardDemoTab />,
+      code: <WorkflowDashboardCodeTab />,
+      tests: <WorkflowDashboardTestsTab />,
     },
   },
   "rendering-performance": {
@@ -107,4 +122,3 @@ export default async function DemoSlugPage({ params, searchParams }: PageProps) 
     </section>
   );
 }
-

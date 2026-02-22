@@ -8,6 +8,12 @@ const demos: Array<{ slug: string; title: string; description: string }> = [
       "Tag invalidation, request de-duplication, and TTL vs a naive fetch approach.",
   },
   {
+    slug: "workflow-dashboard",
+    title: "Workflow Dashboard",
+    description:
+      "Compound DataGrid, state-isolated slide-over form, mock API with error handling.",
+  },
+  {
     slug: "rendering-performance",
     title: "Rendering Performance",
     description:
