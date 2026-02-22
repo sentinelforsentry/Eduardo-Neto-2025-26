@@ -8,7 +8,7 @@ export default function FinancialServicesCaseStudy() {
       <h1 className="text-3xl font-bold text-white">Enterprise Financial Dashboard</h1>
       <p className="mt-2 text-zinc-400">Client: Major Financial Services Firm (Anonymized)</p>
       <div className="mt-6 grid gap-4 text-sm text-zinc-300 sm:grid-cols-3">
-        <div><span className="text-zinc-400">Role:</span> Lead Front-End Engineer</div>
+        <div><span className="text-zinc-400">Role:</span> Front-End Engineer</div>
         <div><span className="text-zinc-400">Tech:</span> React, TypeScript, RTK Query</div>
         <div><span className="text-zinc-400">Outcome:</span> ~30% faster loads & fewer re-renders</div>
       </div>

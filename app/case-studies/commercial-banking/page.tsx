@@ -8,7 +8,7 @@ export default function CommercialBankingCaseStudy() {
       <h1 className="text-3xl font-bold text-white">Commercial Banking Tool</h1>
       <p className="mt-2 text-zinc-400">Client: Major Commercial Bank (Anonymized)</p>
       <div className="mt-6 grid gap-4 text-sm text-zinc-300 sm:grid-cols-3">
-        <div><span className="text-zinc-400">Role:</span> Lead Front-End Engineer</div>
+        <div><span className="text-zinc-400">Role:</span> Front-End Engineer</div>
         <div><span className="text-zinc-400">Tech:</span> React, TypeScript, Component Library</div>
         <div><span className="text-zinc-400">Outcome:</span> ~25% dev-time reduction</div>
       </div>
