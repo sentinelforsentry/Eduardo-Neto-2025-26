@@ -2,6 +2,9 @@ import TabNav from "@/app/components/demos/TabNav";
 import RtkComparison from "@/demos/rtk-query/RtkComparison";
 import RtkCodeOverview from "@/demos/rtk-query/RtkCodeOverview";
 import RtkTestsOverview from "@/demos/rtk-query/RtkTestsOverview";
+import BookingDemoPane from "@/demos/travel-booking/BookingDemoPane";
+import BookingCodeOverview from "@/demos/travel-booking/BookingCodeOverview";
+import BookingTestsOverview from "@/demos/travel-booking/BookingTestsOverview";
 import type { ReactNode } from "react";
 
 type PageProps = {
@@ -58,6 +61,18 @@ const DEMO_CONTENT: Record<string, DemoConfig> = {
     title: "Demo Component Library",
     summary: "Interactive example coming soon.",
     tabs: PLACEHOLDER_TABS,
+  },
+  "travel-booking": {
+    title: "Hospitality Booking Widget",
+    summary:
+      "A custom date-range + guest-count search widget with interdependent state, real-time pricing, and full keyboard accessibility.",
+    supporting:
+      "The demo instruments memoization boundaries via React.memo and useMemo, and implements focus-trapping in a fully accessible modal.",
+    tabs: {
+      demo: <BookingDemoPane />,
+      code: <BookingCodeOverview />,
+      tests: <BookingTestsOverview />,
+    },
   },
 };
 

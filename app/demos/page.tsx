@@ -19,6 +19,12 @@ const demos: Array<{ slug: string; title: string; description: string }> = [
     description:
       "A small accessible UI set with docs, used across the interactive demos.",
   },
+  {
+    slug: "travel-booking",
+    title: "Hospitality Booking Widget",
+    description:
+      "Custom search widget with interdependent date/guest state, real-time pricing, and accessible modal.",
+  },
 ];
 
 export default function DemosIndexPage() {
