@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 
-export function SlideOver({
+export function EditModal({
     isOpen,
     onClose,
     title,
@@ -13,8 +13,6 @@ export function SlideOver({
     title: string;
     children: React.ReactNode;
 }) {
-    const overlayRef = useRef<HTMLDivElement>(null);
-
     useEffect(() => {
         const handleEscape = (e: KeyboardEvent) => {
             if (e.key === "Escape") onClose();
@@ -34,21 +32,20 @@ export function SlideOver({
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex justify-end">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
             {/* Backdrop */}
             <div
-                ref={overlayRef}
-                className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
+                className="fixed inset-0 bg-black/60 backdrop-blur-sm"
                 onClick={onClose}
                 data-testid="slide-over-backdrop"
             />
 
-            {/* Panel */}
+            {/* Modal panel */}
             <div
-                className="relative z-10 w-full max-w-md bg-zinc-900 shadow-2xl border-l border-white/10 transform transition-transform duration-300 ease-in-out flex flex-col"
+                className="relative z-10 w-full max-w-lg rounded-xl border border-white/10 bg-zinc-900 shadow-2xl flex flex-col max-h-[90vh]"
                 data-testid="slide-over-panel"
             >
-                <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
+                <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 shrink-0">
                     <h2 className="text-lg font-medium text-white">{title}</h2>
                     <button
                         onClick={onClose}

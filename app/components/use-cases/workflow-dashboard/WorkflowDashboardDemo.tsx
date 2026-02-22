@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { DataGrid } from "./DataGrid";
-import { SlideOver } from "./SlideOver";
+import { EditModal } from "./SlideOver";
 
 export type Task = {
     id: string;
@@ -115,7 +115,7 @@ export function WorkflowDashboardDemo() {
                 </DataGrid.Body>
             </DataGrid>
 
-            <SlideOver
+            <EditModal
                 isOpen={!!selectedTask}
                 onClose={handleClose}
                 title={`Edit Task: ${selectedTask?.id}`}
@@ -127,7 +127,7 @@ export function WorkflowDashboardDemo() {
                         onSaveSuccess={handleSaveSuccess}
                     />
                 )}
-            </SlideOver>
+            </EditModal>
         </div>
     );
 }
