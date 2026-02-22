@@ -128,6 +128,10 @@ export function BookingWidget() {
         updateDates, updateGuests,
     } = useBookingFilter();
 
+    const onAdultsChange = useCallback((val: number) => updateGuests('adults', val), [updateGuests]);
+    const onChildrenChange = useCallback((val: number) => updateGuests('children', val), [updateGuests]);
+    const onInfantsChange = useCallback((val: number) => updateGuests('infants', val), [updateGuests]);
+
     const handleOpen = useCallback(() => {
         previousFocusRef.current = document.activeElement as HTMLElement;
         setIsOpen(true);
@@ -252,21 +256,21 @@ export function BookingWidget() {
                                     value={guests.adults}
                                     min={GUEST_LIMITS.adults.min}
                                     max={GUEST_LIMITS.adults.max}
-                                    onChange={(val) => updateGuests('adults', val)}
+                                    onChange={onAdultsChange}
                                 />
                                 <Counter
                                     label="Children"
                                     value={guests.children}
                                     min={GUEST_LIMITS.children.min}
                                     max={GUEST_LIMITS.children.max}
-                                    onChange={(val) => updateGuests('children', val)}
+                                    onChange={onChildrenChange}
                                 />
                                 <Counter
                                     label="Infants"
                                     value={guests.infants}
                                     min={GUEST_LIMITS.infants.min}
                                     max={GUEST_LIMITS.infants.max}
-                                    onChange={(val) => updateGuests('infants', val)}
+                                    onChange={onInfantsChange}
                                 />
                             </div>
                         </div>
