@@ -41,6 +41,9 @@ const DatePicker = memo(({
 }: {
     checkIn: Date | null; checkOut: Date | null; onDatesChange: (ci: Date | null, co: Date | null) => void;
 }) => {
+    const checkInRef = useRef<HTMLInputElement>(null);
+    const checkOutRef = useRef<HTMLInputElement>(null);
+
     const formatDate = (d: Date | null) => {
         if (!d) return '';
         return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
@@ -52,49 +55,63 @@ const DatePicker = memo(({
         </svg>
     );
 
+    const openPicker = (ref: React.RefObject<HTMLInputElement | null>) => {
+        const el = ref.current;
+        if (!el) return;
+        try { el.showPicker(); } catch { el.focus(); }
+    };
+
     return (
         <div className="flex flex-col space-y-3 py-3">
             <div className="flex items-center justify-between">
                 <label htmlFor="checkin" className="text-zinc-200 font-medium">Check-In</label>
-                <div className="relative">
-                    <div className="flex items-center gap-2 rounded-lg border border-white/10 bg-black/40 px-3 py-2 cursor-pointer hover:border-[#ff8820] transition-colors">
-                        {calendarIcon}
-                        <span className={`text-sm font-sans ${checkIn ? 'text-white' : 'text-zinc-500'}`}>
-                            {checkIn ? formatDate(checkIn) : 'Select date'}
-                        </span>
-                    </div>
-                    <input
-                        id="checkin"
-                        type="date"
-                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                        value={checkIn ? checkIn.toISOString().split('T')[0] : ''}
-                        onChange={(e) => {
-                            const date = e.target.value ? new Date(e.target.value) : null;
-                            onDatesChange(date, checkOut);
-                        }}
-                    />
-                </div>
+                <button
+                    type="button"
+                    className="flex items-center gap-2 rounded-lg border border-white/10 bg-black/40 px-3 py-2 cursor-pointer hover:border-[#ff8820] transition-colors"
+                    onClick={() => openPicker(checkInRef)}
+                >
+                    {calendarIcon}
+                    <span className={`text-sm font-sans ${checkIn ? 'text-white' : 'text-zinc-500'}`}>
+                        {checkIn ? formatDate(checkIn) : 'Select date'}
+                    </span>
+                </button>
+                <input
+                    ref={checkInRef}
+                    id="checkin"
+                    type="date"
+                    className="sr-only"
+                    tabIndex={-1}
+                    value={checkIn ? checkIn.toISOString().split('T')[0] : ''}
+                    onChange={(e) => {
+                        const date = e.target.value ? new Date(e.target.value) : null;
+                        onDatesChange(date, checkOut);
+                    }}
+                />
             </div>
             <div className="flex items-center justify-between">
                 <label htmlFor="checkout" className="text-zinc-200 font-medium">Check-Out</label>
-                <div className="relative">
-                    <div className="flex items-center gap-2 rounded-lg border border-white/10 bg-black/40 px-3 py-2 cursor-pointer hover:border-[#ff8820] transition-colors">
-                        {calendarIcon}
-                        <span className={`text-sm font-sans ${checkOut ? 'text-white' : 'text-zinc-500'}`}>
-                            {checkOut ? formatDate(checkOut) : 'Select date'}
-                        </span>
-                    </div>
-                    <input
-                        id="checkout"
-                        type="date"
-                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                        value={checkOut ? checkOut.toISOString().split('T')[0] : ''}
-                        onChange={(e) => {
-                            const date = e.target.value ? new Date(e.target.value) : null;
-                            onDatesChange(checkIn, date);
-                        }}
-                    />
-                </div>
+                <button
+                    type="button"
+                    className="flex items-center gap-2 rounded-lg border border-white/10 bg-black/40 px-3 py-2 cursor-pointer hover:border-[#ff8820] transition-colors"
+                    onClick={() => openPicker(checkOutRef)}
+                >
+                    {calendarIcon}
+                    <span className={`text-sm font-sans ${checkOut ? 'text-white' : 'text-zinc-500'}`}>
+                        {checkOut ? formatDate(checkOut) : 'Select date'}
+                    </span>
+                </button>
+                <input
+                    ref={checkOutRef}
+                    id="checkout"
+                    type="date"
+                    className="sr-only"
+                    tabIndex={-1}
+                    value={checkOut ? checkOut.toISOString().split('T')[0] : ''}
+                    onChange={(e) => {
+                        const date = e.target.value ? new Date(e.target.value) : null;
+                        onDatesChange(checkIn, date);
+                    }}
+                />
             </div>
         </div>
     );
