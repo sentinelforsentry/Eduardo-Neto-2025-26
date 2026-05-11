@@ -5,6 +5,7 @@ import {
   SESSION_MAX_AGE_SECONDS,
   verifyMagicLinkToken,
 } from "@/lib/ricardo-auth";
+import { consumeRicardoMagicLinkJti } from "@/lib/ricardo-magic-link-store";
 
 export const runtime = "nodejs";
 
@@ -12,7 +13,7 @@ export async function GET(req: Request) {
   const url = new URL(req.url);
   const payload = verifyMagicLinkToken(url.searchParams.get("token") ?? undefined);
 
-  if (!payload) {
+  if (!payload?.jti || !(await consumeRicardoMagicLinkJti(payload.jti))) {
     return NextResponse.redirect(new URL("/ricardo-scigliano?error=invalid-link", req.url));
   }
 

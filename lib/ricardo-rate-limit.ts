@@ -1,4 +1,9 @@
 import crypto from "node:crypto";
+import {
+  getRicardoRedisConfig,
+  ricardoRedisCommand,
+  type RicardoRedisConfig,
+} from "@/lib/ricardo-redis";
 
 const RATE_LIMIT_WINDOW_SECONDS = 15 * 60;
 const INCREMENT_WITH_TTL_SCRIPT = `
@@ -14,26 +19,9 @@ const rateLimits = [
   { scope: "email", max: 10 },
 ] as const;
 
-type RedisConfig = {
-  token: string;
-  url: string;
-};
-
 type RedisNumberResponse = {
   result?: number;
 };
-
-function getRedisConfig(): RedisConfig | null {
-  const url = process.env.KV_REST_API_URL ?? process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.KV_REST_API_TOKEN ?? process.env.UPSTASH_REDIS_REST_TOKEN;
-
-  if (!url || !token) return null;
-
-  return {
-    token,
-    url: url.replace(/\/+$/, ""),
-  };
-}
 
 function getClientIp(req: Request) {
   // Vercel overwrites x-forwarded-for, so this avoids trusting client-supplied proxy headers.
@@ -52,24 +40,8 @@ function createRateLimitKey(scope: (typeof rateLimits)[number]["scope"], email: 
   return `ricardo:magic-link:${scope}:${hash(value)}`;
 }
 
-async function redisCommand<T>(config: RedisConfig, command: string[]) {
-  const response = await fetch(`${config.url}/${command.map(encodeURIComponent).join("/")}`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${config.token}`,
-    },
-    cache: "no-store",
-  });
-
-  if (!response.ok) {
-    throw new Error(`Rate limit store request failed with ${response.status}.`);
-  }
-
-  return response.json() as Promise<T>;
-}
-
-async function incrementBucket(config: RedisConfig, key: string) {
-  const { result } = await redisCommand<RedisNumberResponse>(config, [
+async function incrementBucket(config: RicardoRedisConfig, key: string) {
+  const { result } = await ricardoRedisCommand<RedisNumberResponse>(config, [
     "eval",
     INCREMENT_WITH_TTL_SCRIPT,
     "1",
@@ -85,7 +57,7 @@ async function incrementBucket(config: RedisConfig, key: string) {
 }
 
 export async function isRicardoMagicLinkRateLimited(email: string, req: Request) {
-  const config = getRedisConfig();
+  const config = getRicardoRedisConfig();
 
   if (!config) {
     return process.env.NODE_ENV === "production";
