@@ -41,9 +41,7 @@ export async function POST(req: Request) {
     return redirectToRequest(req, { error: "invalid-email" });
   }
 
-  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
-
-  if (isRicardoMagicLinkRateLimited(email, ip)) {
+  if (await isRicardoMagicLinkRateLimited(email, req)) {
     return redirectToRequest(req, { sent: "1" });
   }
 

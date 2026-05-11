@@ -1,60 +1,101 @@
 import crypto from "node:crypto";
 
-const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
-const RATE_LIMIT_MAX_REQUESTS = 3;
-const MAX_BUCKETS = 500;
+const RATE_LIMIT_WINDOW_SECONDS = 15 * 60;
 
-type RateLimitBucket = {
-  count: number;
-  resetAt: number;
+const rateLimits = [
+  { scope: "email-ip", max: 3 },
+  { scope: "email", max: 10 },
+] as const;
+
+type RedisConfig = {
+  token: string;
+  url: string;
 };
 
-type GlobalRateLimitState = typeof globalThis & {
-  __ricardoMagicLinkRateLimit?: Map<string, RateLimitBucket>;
+type RedisNumberResponse = {
+  result?: number;
 };
 
-function getStore() {
-  const state = globalThis as GlobalRateLimitState;
-  state.__ricardoMagicLinkRateLimit ??= new Map<string, RateLimitBucket>();
-  return state.__ricardoMagicLinkRateLimit;
+function getRedisConfig(): RedisConfig | null {
+  const url = process.env.KV_REST_API_URL ?? process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.KV_REST_API_TOKEN ?? process.env.UPSTASH_REDIS_REST_TOKEN;
+
+  if (!url || !token) return null;
+
+  return {
+    token,
+    url: url.replace(/\/+$/, ""),
+  };
 }
 
-function createRateLimitKey(email: string, ip: string) {
-  return crypto
-    .createHash("sha256")
-    .update(`${email.trim().toLowerCase()}:${ip}`)
-    .digest("hex");
+function getClientIp(req: Request) {
+  // Vercel overwrites x-forwarded-for, so this avoids trusting client-supplied proxy headers.
+  return req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
 }
 
-function pruneExpiredBuckets(store: Map<string, RateLimitBucket>, now: number) {
-  if (store.size < MAX_BUCKETS) return;
+function hash(input: string) {
+  return crypto.createHash("sha256").update(input).digest("hex");
+}
 
-  for (const [key, bucket] of store.entries()) {
-    if (bucket.resetAt <= now) {
-      store.delete(key);
+function createRateLimitKey(scope: (typeof rateLimits)[number]["scope"], email: string, req: Request) {
+  const normalizedEmail = email.trim().toLowerCase();
+  const clientIp = getClientIp(req);
+  const value = scope === "email-ip" ? `${normalizedEmail}:${clientIp}` : normalizedEmail;
+
+  return `ricardo:magic-link:${scope}:${hash(value)}`;
+}
+
+async function redisCommand<T>(config: RedisConfig, command: string[]) {
+  const response = await fetch(`${config.url}/${command.map(encodeURIComponent).join("/")}`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${config.token}`,
+    },
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    throw new Error(`Rate limit store request failed with ${response.status}.`);
+  }
+
+  return response.json() as Promise<T>;
+}
+
+async function incrementBucket(config: RedisConfig, key: string) {
+  const { result } = await redisCommand<RedisNumberResponse>(config, ["incr", key]);
+
+  if (typeof result !== "number") {
+    throw new Error("Rate limit store returned an invalid counter.");
+  }
+
+  if (result === 1) {
+    await redisCommand(config, ["expire", key, String(RATE_LIMIT_WINDOW_SECONDS)]);
+  }
+
+  return result;
+}
+
+export async function isRicardoMagicLinkRateLimited(email: string, req: Request) {
+  const config = getRedisConfig();
+
+  if (!config) {
+    return process.env.NODE_ENV === "production";
+  }
+
+  try {
+    const counters = await Promise.all(
+      rateLimits.map(async (limit) => ({
+        count: await incrementBucket(config, createRateLimitKey(limit.scope, email, req)),
+        max: limit.max,
+      })),
+    );
+
+    return counters.some(({ count, max }) => count > max);
+  } catch (error) {
+    if (process.env.NODE_ENV !== "production") {
+      console.error(error);
     }
-  }
-}
 
-export function isRicardoMagicLinkRateLimited(email: string, ip: string) {
-  const now = Date.now();
-  const store = getStore();
-  const key = createRateLimitKey(email, ip);
-  const bucket = store.get(key);
-
-  if (!bucket || bucket.resetAt <= now) {
-    store.set(key, {
-      count: 1,
-      resetAt: now + RATE_LIMIT_WINDOW_MS,
-    });
-    pruneExpiredBuckets(store, now);
-    return false;
-  }
-
-  if (bucket.count >= RATE_LIMIT_MAX_REQUESTS) {
     return true;
   }
-
-  bucket.count += 1;
-  return false;
 }
