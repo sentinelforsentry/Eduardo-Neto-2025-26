@@ -21,12 +21,8 @@ export function useBookingFilter() {
     const [guests, setGuests] = useState<GuestCounts>({ adults: 1, children: 0, infants: 0 });
 
     const updateDates = useCallback((newCheckIn: Date | null, newCheckOut: Date | null) => {
-        if (newCheckIn && newCheckOut && newCheckOut <= newCheckIn) {
-            // Reject invalid check-out date
-            return;
-        }
         setCheckIn(newCheckIn);
-        setCheckOut(newCheckOut);
+        setCheckOut(newCheckIn && newCheckOut && newCheckOut <= newCheckIn ? null : newCheckOut);
     }, []);
 
     const updateGuests = useCallback((type: keyof GuestCounts, count: number) => {
