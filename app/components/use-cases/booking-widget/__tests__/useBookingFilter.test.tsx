@@ -1,3 +1,5 @@
+// @vitest-environment jsdom
+
 import { describe, it, expect } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import { useBookingFilter, GUEST_LIMITS } from '../useBookingFilter';
@@ -24,18 +26,34 @@ describe('useBookingFilter', () => {
         expect(result.current.checkOut).toEqual(checkOut);
     });
 
-    it('rejects invalid date ranges', () => {
+    it('clears checkout when a date range becomes invalid', () => {
         const { result } = renderHook(() => useBookingFilter());
         const validCheckIn = new Date('2026-05-10');
-        // A check-out date before the check-in date
         const checkOut = new Date('2026-05-09');
 
         act(() => {
             result.current.updateDates(validCheckIn, checkOut);
         });
 
-        // Should not update
-        expect(result.current.checkIn).toBeNull();
+        expect(result.current.checkIn).toEqual(validCheckIn);
+        expect(result.current.checkOut).toBeNull();
+    });
+
+    it('keeps a later check-in change and clears the now-invalid checkout', () => {
+        const { result } = renderHook(() => useBookingFilter());
+        const initialCheckIn = new Date('2026-05-10');
+        const initialCheckOut = new Date('2026-05-12');
+        const laterCheckIn = new Date('2026-05-15');
+
+        act(() => {
+            result.current.updateDates(initialCheckIn, initialCheckOut);
+        });
+
+        act(() => {
+            result.current.updateDates(laterCheckIn, result.current.checkOut);
+        });
+
+        expect(result.current.checkIn).toEqual(laterCheckIn);
         expect(result.current.checkOut).toBeNull();
     });
 

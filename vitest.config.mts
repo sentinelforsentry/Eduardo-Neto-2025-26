@@ -6,7 +6,7 @@ const rootDir = dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   test: {
-    environment: "jsdom",
+    environment: "node",
     setupFiles: ["./vitest.setup.ts"],
     globals: true,
     pool: "threads",
@@ -20,4 +20,3 @@ export default defineConfig({
     },
   },
 });
-
