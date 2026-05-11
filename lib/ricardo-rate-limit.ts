@@ -1,6 +1,13 @@
 import crypto from "node:crypto";
 
 const RATE_LIMIT_WINDOW_SECONDS = 15 * 60;
+const INCREMENT_WITH_TTL_SCRIPT = `
+  local current = redis.call("INCR", KEYS[1])
+  if current == 1 then
+    redis.call("EXPIRE", KEYS[1], ARGV[1])
+  end
+  return current
+`;
 
 const rateLimits = [
   { scope: "email-ip", max: 3 },
@@ -62,13 +69,17 @@ async function redisCommand<T>(config: RedisConfig, command: string[]) {
 }
 
 async function incrementBucket(config: RedisConfig, key: string) {
-  const { result } = await redisCommand<RedisNumberResponse>(config, ["incr", key]);
+  const { result } = await redisCommand<RedisNumberResponse>(config, [
+    "eval",
+    INCREMENT_WITH_TTL_SCRIPT,
+    "1",
+    key,
+    String(RATE_LIMIT_WINDOW_SECONDS),
+  ]);
 
   if (typeof result !== "number") {
     throw new Error("Rate limit store returned an invalid counter.");
   }
-
-  await redisCommand(config, ["expire", key, String(RATE_LIMIT_WINDOW_SECONDS)]);
 
   return result;
 }
