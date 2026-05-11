@@ -91,12 +91,12 @@ export function WorkflowDashboardDemo() {
                     <DataGrid.Cell isHeader>Amount (USD)</DataGrid.Cell>
                     <DataGrid.Cell isHeader>Status</DataGrid.Cell>
                     <DataGrid.Cell isHeader>Last Updated</DataGrid.Cell>
+                    <DataGrid.Cell isHeader>Actions</DataGrid.Cell>
                 </DataGrid.Header>
                 <DataGrid.Body>
                     {tasks.map((task) => (
                         <DataGrid.Row
                             key={task.id}
-                            onClick={() => handleRowClick(task)}
                             active={selectedTask?.id === task.id}
                         >
                             <DataGrid.Cell>{task.id}</DataGrid.Cell>
@@ -110,6 +110,16 @@ export function WorkflowDashboardDemo() {
                                 <StatusBadge status={task.status} />
                             </DataGrid.Cell>
                             <DataGrid.Cell>{task.lastUpdated}</DataGrid.Cell>
+                            <DataGrid.Cell>
+                                <button
+                                    type="button"
+                                    onClick={() => handleRowClick(task)}
+                                    className="rounded-md border border-white/10 px-3 py-1.5 text-xs font-medium text-zinc-200 transition hover:border-[#ff8820] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#ff8820]"
+                                    aria-label={`Edit task ${task.id} for ${task.clientName}`}
+                                >
+                                    Edit
+                                </button>
+                            </DataGrid.Cell>
                         </DataGrid.Row>
                     ))}
                 </DataGrid.Body>
@@ -122,6 +132,7 @@ export function WorkflowDashboardDemo() {
             >
                 {selectedTask && (
                     <EditTaskForm
+                        key={selectedTask.id}
                         task={selectedTask}
                         onCancel={handleClose}
                         onSaveSuccess={handleSaveSuccess}
@@ -164,13 +175,6 @@ function EditTaskForm({
     const [isSaving, setIsSaving] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [forceError, setForceError] = useState(false);
-
-    // Sync draft if the parent task changes while form is open (edge case handle)
-    React.useEffect(() => {
-        setDraft(task);
-        setError(null);
-        setForceError(false);
-    }, [task]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

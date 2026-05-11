@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useId } from "react";
 
 export function EditModal({
     isOpen,
@@ -13,6 +13,8 @@ export function EditModal({
     title: string;
     children: React.ReactNode;
 }) {
+    const titleId = useId();
+
     useEffect(() => {
         const handleEscape = (e: KeyboardEvent) => {
             if (e.key === "Escape") onClose();
@@ -38,19 +40,25 @@ export function EditModal({
                 className="fixed inset-0 bg-black/60 backdrop-blur-sm"
                 onClick={onClose}
                 data-testid="slide-over-backdrop"
+                aria-hidden="true"
             />
 
             {/* Modal panel */}
             <div
                 className="relative z-10 w-full max-w-lg rounded-xl border border-white/10 bg-zinc-900 shadow-2xl flex flex-col max-h-[90vh]"
                 data-testid="slide-over-panel"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby={titleId}
             >
                 <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 shrink-0">
-                    <h2 className="text-lg font-medium text-white">{title}</h2>
+                    <h2 id={titleId} className="text-lg font-medium text-white">{title}</h2>
                     <button
+                        type="button"
                         onClick={onClose}
                         className="text-zinc-400 hover:text-white transition-colors"
                         data-testid="close-slide-over"
+                        aria-label="Close edit dialog"
                     >
                         <svg
                             className="w-5 h-5"

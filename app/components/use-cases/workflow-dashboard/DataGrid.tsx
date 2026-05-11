@@ -26,20 +26,17 @@ DataGrid.Body = function DataGridBody({ children }: { children: ReactNode }) {
 
 DataGrid.Row = function DataGridRow({
   children,
-  onClick,
   active,
 }: {
   children: ReactNode;
-  onClick?: () => void;
   active?: boolean;
 }) {
   return (
     <tr
-      onClick={onClick}
       data-testid="data-grid-row"
       className={`border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors ${
-        onClick ? "cursor-pointer" : ""
-      } ${active ? "bg-white/10" : ""}`}
+        active ? "bg-white/10" : ""
+      }`}
     >
       {children}
     </tr>

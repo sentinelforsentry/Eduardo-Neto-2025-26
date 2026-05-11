@@ -1,3 +1,5 @@
+// @vitest-environment jsdom
+
 import { render, screen, within, fireEvent, act } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import React from "react";
@@ -22,13 +24,20 @@ describe("WorkflowDashboardDemo", () => {
     it("opens the slide-over form when a row is clicked", () => {
         render(<WorkflowDashboardDemo />);
 
-        const rows = screen.getAllByTestId("data-grid-row");
-        // Click Acme Corp row
-        fireEvent.click(rows[0]);
+        fireEvent.click(screen.getByRole("button", { name: /edit task txn-001 for acme corp/i }));
 
-        expect(screen.getByTestId("slide-over-panel")).toBeInTheDocument();
+        expect(screen.getByRole("dialog", { name: /edit task: txn-001/i })).toBeInTheDocument();
         const clientNameInput = screen.getByTestId("edit-client-name");
         expect(clientNameInput).toHaveValue("Acme Corp");
+    });
+
+    it("exposes a named close button for the edit dialog", () => {
+        render(<WorkflowDashboardDemo />);
+
+        fireEvent.click(screen.getByRole("button", { name: /edit task txn-001 for acme corp/i }));
+        fireEvent.click(screen.getByRole("button", { name: /close edit dialog/i }));
+
+        expect(screen.queryByRole("dialog", { name: /edit task: txn-001/i })).not.toBeInTheDocument();
     });
 
     it("isolates state: changes in form do not immediately update the grid", () => {
@@ -38,7 +47,7 @@ describe("WorkflowDashboardDemo", () => {
         // Row 1 is Acme Corp
         within(rows[0]).getByText("Acme Corp");
 
-        fireEvent.click(rows[0]);
+        fireEvent.click(screen.getByRole("button", { name: /edit task txn-001 for acme corp/i }));
         const input = screen.getByTestId("edit-client-name");
 
         fireEvent.change(input, { target: { value: "Acme Corp Edited" } });
@@ -53,7 +62,7 @@ describe("WorkflowDashboardDemo", () => {
 
         // Open Row
         const rows = screen.getAllByTestId("data-grid-row");
-        fireEvent.click(rows[0]);
+        fireEvent.click(screen.getByRole("button", { name: /edit task txn-001 for acme corp/i }));
 
         // Edit Name
         const input = screen.getByTestId("edit-client-name");
@@ -63,7 +72,7 @@ describe("WorkflowDashboardDemo", () => {
         fireEvent.click(screen.getByTestId("cancel-edit"));
 
         // Form is closed
-        expect(screen.queryByTestId("slide-over-panel")).not.toBeInTheDocument();
+        expect(screen.queryByRole("dialog", { name: /edit task: txn-001/i })).not.toBeInTheDocument();
 
         // Original data remains
         expect(within(rows[0]).getByText("Acme Corp")).toBeInTheDocument();
@@ -72,8 +81,7 @@ describe("WorkflowDashboardDemo", () => {
     it("shows loading state, simulates api delay, and optimistically updates grid on success", async () => {
         render(<WorkflowDashboardDemo />);
 
-        const rows = screen.getAllByTestId("data-grid-row");
-        fireEvent.click(rows[0]);
+        fireEvent.click(screen.getByRole("button", { name: /edit task txn-001 for acme corp/i }));
 
         const input = screen.getByTestId("edit-client-name");
         fireEvent.change(input, { target: { value: "Acme Saved" } });
@@ -91,7 +99,7 @@ describe("WorkflowDashboardDemo", () => {
         });
 
         // Wait for the form to close and grid to update
-        expect(screen.queryByTestId("slide-over-panel")).not.toBeInTheDocument();
+        expect(screen.queryByRole("dialog", { name: /edit task: txn-001/i })).not.toBeInTheDocument();
 
         // Validates optimistic state sync on successful response
         expect(screen.getByText("Acme Saved")).toBeInTheDocument();
@@ -102,7 +110,7 @@ describe("WorkflowDashboardDemo", () => {
         render(<WorkflowDashboardDemo />);
 
         const rows = screen.getAllByTestId("data-grid-row");
-        fireEvent.click(rows[0]);
+        fireEvent.click(screen.getByRole("button", { name: /edit task txn-001 for acme corp/i }));
 
         const input = screen.getByTestId("edit-client-name");
         fireEvent.change(input, { target: { value: "Acme Error" } });
@@ -123,7 +131,7 @@ describe("WorkflowDashboardDemo", () => {
         expect(screen.getByRole("alert")).toHaveTextContent("Network Error: Failed to update task");
 
         // Form remains open
-        expect(screen.getByTestId("slide-over-panel")).toBeInTheDocument();
+        expect(screen.getByRole("dialog", { name: /edit task: txn-001/i })).toBeInTheDocument();
 
         // Data grid is unmodified
         expect(within(rows[0]).getByText("Acme Corp")).toBeInTheDocument();
