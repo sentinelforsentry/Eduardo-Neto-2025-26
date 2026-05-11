@@ -92,14 +92,15 @@ export async function isRicardoMagicLinkRateLimited(email: string, req: Request)
   }
 
   try {
-    const counters = await Promise.all(
-      rateLimits.map(async (limit) => ({
-        count: await incrementBucket(config, createRateLimitKey(limit.scope, email, req)),
-        max: limit.max,
-      })),
-    );
+    for (const limit of rateLimits) {
+      const count = await incrementBucket(config, createRateLimitKey(limit.scope, email, req));
 
-    return counters.some(({ count, max }) => count > max);
+      if (count > limit.max) {
+        return true;
+      }
+    }
+
+    return false;
   } catch (error) {
     if (process.env.NODE_ENV !== "production") {
       console.error(error);
