@@ -41,7 +41,7 @@ export async function POST(req: Request) {
     return redirectToRequest(req, { error: "invalid-email" });
   }
 
-  if (isRicardoMagicLinkRateLimited(email, req)) {
+  if (isRicardoMagicLinkRateLimited(email)) {
     return redirectToRequest(req, { sent: "1" });
   }
 
