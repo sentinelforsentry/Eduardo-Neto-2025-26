@@ -19,21 +19,10 @@ function getStore() {
   return state.__ricardoMagicLinkRateLimit;
 }
 
-function getClientIp(req: Request) {
-  const forwardedFor = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
-
-  return (
-    forwardedFor ??
-    req.headers.get("x-real-ip") ??
-    req.headers.get("cf-connecting-ip") ??
-    "unknown"
-  );
-}
-
-function createRateLimitKey(email: string, req: Request) {
+function createRateLimitKey(email: string) {
   return crypto
     .createHash("sha256")
-    .update(`${email.trim().toLowerCase()}:${getClientIp(req)}`)
+    .update(email.trim().toLowerCase())
     .digest("hex");
 }
 
@@ -47,10 +36,10 @@ function pruneExpiredBuckets(store: Map<string, RateLimitBucket>, now: number) {
   }
 }
 
-export function isRicardoMagicLinkRateLimited(email: string, req: Request) {
+export function isRicardoMagicLinkRateLimited(email: string) {
   const now = Date.now();
   const store = getStore();
-  const key = createRateLimitKey(email, req);
+  const key = createRateLimitKey(email);
   const bucket = store.get(key);
 
   if (!bucket || bucket.resetAt <= now) {
