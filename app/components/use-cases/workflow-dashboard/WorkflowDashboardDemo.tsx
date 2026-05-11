@@ -74,7 +74,9 @@ export function WorkflowDashboardDemo() {
         setTasks((prev) =>
             prev.map((t) => (t.id === updatedTask.id ? updatedTask : t))
         );
-        setSelectedTask(null);
+        setSelectedTask((currentTask) =>
+            currentTask?.id === updatedTask.id ? null : currentTask
+        );
     };
 
     return (

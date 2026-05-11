@@ -106,6 +106,25 @@ describe("WorkflowDashboardDemo", () => {
         expect(screen.queryByText("Acme Corp")).not.toBeInTheDocument();
     });
 
+    it("does not close a newer edit dialog when an earlier save completes", async () => {
+        render(<WorkflowDashboardDemo />);
+
+        fireEvent.click(screen.getByRole("button", { name: /edit task txn-001 for acme corp/i }));
+        fireEvent.change(screen.getByTestId("edit-client-name"), { target: { value: "Acme Saved" } });
+        fireEvent.click(screen.getByTestId("save-edit"));
+
+        fireEvent.click(screen.getByRole("button", { name: /close edit dialog/i }));
+        fireEvent.click(screen.getByRole("button", { name: /edit task txn-002 for globex inc/i }));
+
+        await act(async () => {
+            await vi.advanceTimersByTimeAsync(1500);
+        });
+
+        expect(screen.getByRole("dialog", { name: /edit task: txn-002/i })).toBeInTheDocument();
+        expect(screen.getByTestId("edit-client-name")).toHaveValue("Globex Inc");
+        expect(screen.getByText("Acme Saved")).toBeInTheDocument();
+    });
+
     it("shows error state and does not update parent grid on API failure", async () => {
         render(<WorkflowDashboardDemo />);
 
