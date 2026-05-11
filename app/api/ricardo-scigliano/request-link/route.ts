@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createMagicLinkToken, isAllowedRicardoEmail } from "@/lib/ricardo-auth";
+import { isRicardoMagicLinkRateLimited } from "@/lib/ricardo-rate-limit";
 import { getResend } from "@/lib/resend";
 
 export const runtime = "nodejs";
@@ -50,8 +51,23 @@ export async function POST(req: Request) {
   if (!baseUrl) {
     return redirectToRequest(req, { error: "email-config" });
   }
-  const token = createMagicLinkToken(email);
-  const link = `${baseUrl}/ricardo-scigliano/auth/callback?token=${encodeURIComponent(token)}`;
+
+  if (isRicardoMagicLinkRateLimited(email, req)) {
+    return redirectToRequest(req, { error: "rate-limit" });
+  }
+
+  let link: string;
+
+  try {
+    const token = createMagicLinkToken(email);
+    link = `${baseUrl}/ricardo-scigliano/auth/callback?token=${encodeURIComponent(token)}`;
+  } catch (error) {
+    if (process.env.NODE_ENV !== "production") {
+      console.error(error);
+    }
+
+    return redirectToRequest(req, { error: "email-config" });
+  }
 
   try {
     const resend = getResend();

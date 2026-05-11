@@ -13,6 +13,7 @@ function messageForError(error: string | undefined) {
   if (error === "invalid-email") return "Please enter a valid email address.";
   if (error === "invalid-link") return "That magic link is invalid or has expired. Request a new one.";
   if (error === "email-config") return "Email sending is not configured yet. Check the Resend environment variables.";
+  if (error === "rate-limit") return "Too many access links have been requested. Please wait a few minutes and try again.";
   return null;
 }
 
