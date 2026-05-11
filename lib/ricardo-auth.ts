@@ -3,12 +3,13 @@ import { cookies } from "next/headers";
 
 export const RICARDO_AUTH_COOKIE = "ricardo_scigliano_session";
 
-const MAGIC_LINK_MAX_AGE_SECONDS = 15 * 60;
+export const MAGIC_LINK_MAX_AGE_SECONDS = 15 * 60;
 export const SESSION_MAX_AGE_SECONDS = 14 * 24 * 60 * 60;
 
 type AuthPayload = {
   email: string;
   exp: number;
+  jti?: string;
   purpose: "magic" | "session";
 };
 
@@ -43,12 +44,15 @@ function sign(payload: string) {
 }
 
 function createToken(email: string, purpose: AuthPayload["purpose"], maxAgeSeconds: number) {
+  const payloadObject = {
+    email: email.trim().toLowerCase(),
+    exp: Math.floor(Date.now() / 1000) + maxAgeSeconds,
+    ...(purpose === "magic" ? { jti: crypto.randomUUID() } : {}),
+    purpose,
+  } satisfies AuthPayload;
+
   const payload = base64UrlEncode(
-    JSON.stringify({
-      email: email.trim().toLowerCase(),
-      exp: Math.floor(Date.now() / 1000) + maxAgeSeconds,
-      purpose,
-    } satisfies AuthPayload),
+    JSON.stringify(payloadObject),
   );
 
   return `${payload}.${sign(payload)}`;
@@ -74,6 +78,7 @@ function verifyToken(token: string | undefined, expectedPurpose: AuthPayload["pu
 
     if (parsed.purpose !== expectedPurpose) return null;
     if (!parsed.email || parsed.exp < Math.floor(Date.now() / 1000)) return null;
+    if (expectedPurpose === "magic" && typeof parsed.jti !== "string") return null;
 
     return parsed;
   } catch {
