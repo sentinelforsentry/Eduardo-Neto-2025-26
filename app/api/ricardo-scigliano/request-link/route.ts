@@ -44,7 +44,12 @@ export async function POST(req: Request) {
     return redirectToRequest(req, { sent: "1" });
   }
 
-  const baseUrl = process.env.RICARDO_MAGIC_LINK_BASE_URL ?? new URL(req.url).origin;
+  const baseUrl = process.env.RICARDO_MAGIC_LINK_BASE_URL ??
+    (process.env.NODE_ENV === "production" ? null : new URL(req.url).origin);
+
+  if (!baseUrl) {
+    return redirectToRequest(req, { error: "email-config" });
+  }
   const token = createMagicLinkToken(email);
   const link = `${baseUrl}/ricardo-scigliano/auth/callback?token=${encodeURIComponent(token)}`;
 
