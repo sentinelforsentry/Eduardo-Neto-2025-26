@@ -41,6 +41,10 @@ export async function POST(req: Request) {
     return redirectToRequest(req, { error: "invalid-email" });
   }
 
+  if (isRicardoMagicLinkRateLimited(email, req)) {
+    return redirectToRequest(req, { sent: "1" });
+  }
+
   if (!isAllowedRicardoEmail(email)) {
     return redirectToRequest(req, { sent: "1" });
   }
@@ -50,10 +54,6 @@ export async function POST(req: Request) {
 
   if (!baseUrl) {
     return redirectToRequest(req, { error: "email-config" });
-  }
-
-  if (isRicardoMagicLinkRateLimited(email, req)) {
-    return redirectToRequest(req, { error: "rate-limit" });
   }
 
   let link: string;
