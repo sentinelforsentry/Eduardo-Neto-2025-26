@@ -68,9 +68,7 @@ async function incrementBucket(config: RedisConfig, key: string) {
     throw new Error("Rate limit store returned an invalid counter.");
   }
 
-  if (result === 1) {
-    await redisCommand(config, ["expire", key, String(RATE_LIMIT_WINDOW_SECONDS)]);
-  }
+  await redisCommand(config, ["expire", key, String(RATE_LIMIT_WINDOW_SECONDS)]);
 
   return result;
 }
