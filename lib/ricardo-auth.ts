@@ -101,7 +101,7 @@ export async function getRicardoSession() {
 export function isAllowedRicardoEmail(email: string) {
   const allowList = process.env.RICARDO_ALLOWED_EMAILS;
 
-  if (!allowList) return true;
+  if (!allowList) return false;
 
   const normalizedEmail = email.trim().toLowerCase();
   const allowed = allowList
