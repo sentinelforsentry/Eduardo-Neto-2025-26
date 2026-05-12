@@ -83,7 +83,7 @@ export async function POST(req: Request) {
     if (process.env.NODE_ENV !== "production") {
       console.log("Magic link for local development:", link);
       console.error(error);
-      return redirectToRequest(req, { sent: "1", dev: "1" });
+      return redirectToRequest(req, { sent: "1" });
     }
 
     return redirectToRequest(req, { error: "email-config" });

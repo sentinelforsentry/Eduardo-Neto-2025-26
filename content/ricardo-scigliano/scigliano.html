@@ -275,6 +275,7 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+        cursor: zoom-in;
       }
 
       .desktop-shot {
@@ -610,6 +611,7 @@
         aspect-ratio: 1 / 1;
         object-fit: cover;
         border-radius: 4px;
+        cursor: zoom-in;
       }
 
       .procedure {
@@ -663,6 +665,66 @@
         border-bottom: 1px solid var(--copper);
         color: var(--copper-dark);
         font-weight: 900;
+      }
+
+      .back-index {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        z-index: 30;
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 0 16px;
+        border: 1px solid rgba(198, 162, 90, 0.44);
+        border-radius: 999px;
+        background: rgba(27, 28, 25, 0.92);
+        color: var(--off);
+        box-shadow: 0 16px 44px rgba(0, 0, 0, 0.22);
+        font-size: 12px;
+        font-weight: 900;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 60;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 18px;
+        background: rgba(12, 13, 11, 0.9);
+      }
+
+      .lightbox.is-open {
+        display: flex;
+      }
+
+      .lightbox img {
+        max-width: min(100%, 1280px);
+        max-height: 88vh;
+        width: auto;
+        height: auto;
+        border-radius: var(--radius);
+        box-shadow: 0 28px 80px rgba(0, 0, 0, 0.45);
+        object-fit: contain;
+      }
+
+      .lightbox button {
+        position: absolute;
+        top: 18px;
+        right: 18px;
+        width: 44px;
+        height: 44px;
+        border: 1px solid rgba(246, 242, 234, 0.34);
+        border-radius: 50%;
+        background: rgba(27, 28, 25, 0.86);
+        color: var(--off);
+        cursor: pointer;
+        font-size: 26px;
+        line-height: 1;
       }
 
       .timeline {
@@ -832,12 +894,14 @@
           <a href="#resumo">Resumo</a>
           <a href="#arquitetura">Arquitetura</a>
           <a href="#website">Website</a>
+          <a href="#empresa">Empresa</a>
           <a href="#social">Social</a>
           <a href="#checkatrade">Checkatrade</a>
           <a href="#roteiro">Roteiro</a>
         </div>
       </nav>
     </header>
+    <a class="back-index" href="/ricardo-scigliano">← Índice</a>
 
     <main id="inicio">
       <section class="section dark hero">
@@ -888,7 +952,7 @@
               <h2>O objetivo não é “mudar tudo”; é apresentar melhor o valor que já existe.</h2>
             </div>
             <p>
-              Ricardo já tem portfólio, experiência e reputação local. A evolução da marca deve
+              Já existe portfólio, experiência e reputação local. A evolução da marca deve
               transformar isso numa presença mais fácil de entender, confiar e recomendar em Essex.
             </p>
           </div>
@@ -1051,7 +1115,9 @@
               <div class="domain-row">
                 <div>
                   <h3>Homepage guarda-chuva</h3>
-                  <p class="small">Logo + escolha entre os dois serviços.</p>
+                  <p class="small">
+                    Domínio principal recomendado. Pelo preço encontrado, é a melhor opção para UK.
+                  </p>
                 </div>
                 <code>scigliano.co.uk</code>
               </div>
@@ -1069,7 +1135,99 @@
                 </div>
                 <code>build.scigliano.co.uk</code>
               </div>
+              <div class="domain-row">
+                <div>
+                  <h3>Domínio opcional</h3>
+                  <p class="small">
+                    scigliano.art pode ser comprado para proteção ou portfolio, mas não deve ser o
+                    domínio principal. O .co.uk comunica melhor confiança local no UK.
+                  </p>
+                </div>
+                <code>scigliano.art</code>
+              </div>
             </div>
+          </div>
+          <div class="card" style="margin-top: 22px">
+            <h3>Recomendação sobre domínios</h3>
+            <p>
+              Comprar <strong>scigliano.co.uk</strong> é suficiente para lançar a marca no mercado de
+              Essex. O <strong>.com</strong> premium não parece justificar o custo nesta fase. Se o
+              orçamento permitir, comprar também <strong>scigliano.art</strong> como domínio defensivo
+              ou redirecionamento para portfolio, mas manter a comunicação principal em .co.uk.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section soft" id="empresa">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Nome da empresa na Companies House</p>
+              <h2>Ricardo não precisa obrigatoriamente de abrir uma empresa nova para usar Scigliano.</h2>
+            </div>
+            <p>
+              A empresa atual, Classic Wood Ltd, está ativa na Companies House com o número 13553335.
+              O nome legal pode ser alterado, mas também é possível manter a empresa e usar Scigliano
+              como trading name.
+            </p>
+          </div>
+
+          <div class="grid-2">
+            <article class="card">
+              <span class="tag">Opção mais direta</span>
+              <h3>Alterar o nome legal</h3>
+              <p>
+                Se a decisão for passar oficialmente a empresa para um nome como
+                <strong> Scigliano Ltd</strong>, pode pedir a alteração à Companies House. Segundo
+                GOV.UK, uma private limited company pode mudar o nome por special resolution ou por
+                permissão nos articles of association; a mudança só é oficial quando for registada
+                pela Companies House.
+              </p>
+            </article>
+            <article class="card">
+              <span class="tag">Opção com menos fricção</span>
+              <h3>Manter Classic Wood Ltd por trás</h3>
+              <p>
+                A empresa pode continuar legalmente como Classic Wood Ltd e comunicar publicamente
+                “Scigliano” como marca/trading name. Isto reduz mudanças administrativas imediatas,
+                mas exige consistência em invoices, website, email, seguro, banco e marketplaces.
+              </p>
+            </article>
+          </div>
+
+          <div class="procedure" style="margin-top: 18px">
+            <article class="step">
+              <div>
+                <h3>Confirmar disponibilidade do nome</h3>
+                <p>
+                  Verificar regras de company names, nomes semelhantes e possíveis conflitos de
+                  marca antes de comprar domínios ou imprimir material.
+                </p>
+              </div>
+            </article>
+            <article class="step">
+              <div>
+                <h3>Falar com accountant/insurance</h3>
+                <p>
+                  Confirmar impacto em HMRC, banco, seguro, contratos, invoices e marketplaces. Esta
+                  parte deve ser administrativa, não apenas visual.
+                </p>
+              </div>
+            </article>
+            <article class="step">
+              <div>
+                <h3>Atualizar canais em sequência</h3>
+                <p>
+                  Depois da decisão legal, alinhar Checkatrade, Google Business Profile, Houzz,
+                  domínio, email, Instagram, Facebook, assinatura de email e material impresso.
+                </p>
+              </div>
+            </article>
+          </div>
+          <div class="source-links" aria-label="Fontes Companies House">
+            <a href="https://find-and-update.company-information.service.gov.uk/company/13553335">Companies House: Classic Wood Ltd</a>
+            <a href="https://www.gov.uk/make-changes-to-your-limited-company/company-name">GOV.UK: change a company name</a>
           </div>
         </div>
       </section>
@@ -1439,11 +1597,43 @@
       </section>
     </main>
 
+    <div class="lightbox" id="image-lightbox" aria-hidden="true">
+      <button type="button" aria-label="Fechar imagem">×</button>
+      <img alt="" />
+    </div>
     <footer class="footer">
       <div class="wrap">
         <span>scigliano.co.uk</span>
         <span>One name. Two specialist services.</span>
       </div>
     </footer>
+    <script>
+      const lightbox = document.getElementById("image-lightbox");
+      const lightboxImage = lightbox?.querySelector("img");
+      const closeLightbox = () => {
+        if (!lightbox || !lightboxImage) return;
+        lightbox.classList.remove("is-open");
+        lightbox.setAttribute("aria-hidden", "true");
+        lightboxImage.removeAttribute("src");
+      };
+
+      document.querySelectorAll(".image-frame img, .post-grid img").forEach((image) => {
+        image.addEventListener("click", () => {
+          if (!lightbox || !lightboxImage) return;
+          lightboxImage.src = image.currentSrc || image.src;
+          lightboxImage.alt = image.alt || "";
+          lightbox.classList.add("is-open");
+          lightbox.setAttribute("aria-hidden", "false");
+        });
+      });
+
+      lightbox?.addEventListener("click", (event) => {
+        if (event.target === lightbox || event.target.tagName === "BUTTON") closeLightbox();
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeLightbox();
+      });
+    </script>
   </body>
 </html>

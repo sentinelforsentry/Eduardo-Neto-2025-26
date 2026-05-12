@@ -287,6 +287,14 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+        cursor: zoom-in;
+      }
+
+      .image-frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        cursor: zoom-in;
       }
 
       .new-logo-card {
@@ -851,6 +859,96 @@
         text-transform: uppercase;
       }
 
+      .domain-map {
+        display: grid;
+        gap: 12px;
+      }
+
+      .domain-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 16px;
+        align-items: center;
+        padding: 18px 20px;
+        border: 1px solid rgba(103, 72, 47, 0.18);
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.72);
+      }
+
+      .domain-row code {
+        color: var(--forest);
+        font-size: clamp(14px, 1.45vw, 18px);
+        font-weight: 900;
+        white-space: nowrap;
+      }
+
+      .visual-detail-grid {
+        display: grid;
+        grid-template-columns: 0.95fr 1.05fr;
+        gap: 18px;
+        align-items: stretch;
+      }
+
+      .back-index {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        z-index: 30;
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 0 16px;
+        border: 1px solid rgba(199, 155, 101, 0.44);
+        border-radius: 999px;
+        background: rgba(25, 27, 24, 0.92);
+        color: var(--cream);
+        box-shadow: 0 16px 44px rgba(0, 0, 0, 0.22);
+        font-size: 12px;
+        font-weight: 900;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 60;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 18px;
+        background: rgba(12, 13, 11, 0.9);
+      }
+
+      .lightbox.is-open {
+        display: flex;
+      }
+
+      .lightbox img {
+        max-width: min(100%, 1280px);
+        max-height: 88vh;
+        width: auto;
+        height: auto;
+        border-radius: var(--radius);
+        box-shadow: 0 28px 80px rgba(0, 0, 0, 0.45);
+        object-fit: contain;
+      }
+
+      .lightbox button {
+        position: absolute;
+        top: 18px;
+        right: 18px;
+        width: 44px;
+        height: 44px;
+        border: 1px solid rgba(246, 241, 232, 0.34);
+        border-radius: 50%;
+        background: rgba(25, 27, 24, 0.86);
+        color: var(--cream);
+        cursor: pointer;
+        font-size: 26px;
+        line-height: 1;
+      }
+
       @media (max-width: 960px) {
         .nav {
           min-height: auto;
@@ -874,7 +972,8 @@
         .logo-study,
         .logo-proposal,
         .before-after,
-        .social-layout {
+        .social-layout,
+        .visual-detail-grid {
           grid-template-columns: 1fr;
         }
 
@@ -916,8 +1015,14 @@
         .grid-3,
         .logo-rules,
         .service-map,
-        .timeline {
+        .timeline,
+        .domain-row {
           grid-template-columns: 1fr;
+        }
+
+        .domain-row code {
+          white-space: normal;
+          overflow-wrap: anywhere;
         }
 
         .variant {
@@ -959,11 +1064,13 @@
           <a href="#marca">Marca</a>
           <a href="#servicos">Serviços</a>
           <a href="#website">Website</a>
+          <a href="#dominio">Domínio</a>
           <a href="#social">Social</a>
           <a href="#checkatrade">Checkatrade</a>
         </div>
       </nav>
     </header>
+    <a class="back-index" href="/ricardo-scigliano">← Índice</a>
 
     <main id="inicio">
       <section class="section dark hero">
@@ -1274,6 +1381,118 @@
         </div>
       </section>
 
+      <section class="section" id="dominio">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Domínio profissional e email</p>
+              <h2>Manter o nome Classic Wood fica mais forte com domínio e email próprios.</h2>
+            </div>
+            <p>
+              O email atual <strong>classicwoodltd@gmail.com</strong> funciona, mas reduz a
+              perceção de confiança num serviço premium. Um domínio próprio torna o negócio mais
+              profissional em propostas, Checkatrade, Google Business Profile e cartões.
+            </p>
+          </div>
+          <div class="grid-2">
+            <div class="domain-map">
+              <div class="domain-row">
+                <div>
+                  <h3>Domínio principal recomendado</h3>
+                  <p class="small">Melhor opção para clientes no UK e para SEO local em Essex.</p>
+                </div>
+                <code>classicwood.co.uk</code>
+              </div>
+              <div class="domain-row">
+                <div>
+                  <h3>Domínio opcional</h3>
+                  <p class="small">
+                    Pode ser comprado para proteção ou portfolio, mas não deve substituir o .co.uk.
+                  </p>
+                </div>
+                <code>classicwood.art</code>
+              </div>
+              <div class="domain-row">
+                <div>
+                  <h3>Email comercial</h3>
+                  <p class="small">Usar um endereço simples em todas as plataformas e propostas.</p>
+                </div>
+                <code>hello@classicwood.co.uk</code>
+              </div>
+            </div>
+            <article class="card">
+              <span class="tag">Recomendação prática</span>
+              <h3>Comprar o .co.uk primeiro</h3>
+              <p>
+                Se a decisão for manter Classic Wood, a prioridade deve ser
+                <strong> classicwood.co.uk</strong>. O <strong>.art</strong> pode ajudar como domínio
+                defensivo ou portfolio, mas o cliente local em Essex tende a confiar mais no .co.uk.
+                Depois, configurar emails como <strong>hello@classicwood.co.uk</strong> e
+                <strong> ricardo@classicwood.co.uk</strong>, mantendo o Gmail apenas como transição.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section soft">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Detalhe visual e mockups</p>
+              <h2>A proposta Classic Wood é menos radical, por isso precisa de mockups próprios antes da decisão final.</h2>
+            </div>
+            <p>
+              A direção Scigliano já tinha mockups gerados de homepage e branding. Nesta opção, como
+              o nome se mantém, o próximo passo é aplicar o novo logo Classic Wood em materiais
+              reais para permitir uma comparação com o mesmo nível de detalhe.
+            </p>
+          </div>
+          <div class="visual-detail-grid">
+            <figure class="image-frame current-logo">
+              <img src="/ricardo-scigliano/assets/classicwood-current-logo.jpg" alt="Logotipo atual Classic Wood para comparação" />
+            </figure>
+            <div class="grid-2">
+              <article class="card">
+                <span class="tag">Mockups a criar</span>
+                <h3>Website, van e cartões</h3>
+                <p>
+                  Aplicar o novo wordmark em homepage, cartão de visita, assinatura de email, van,
+                  uniforme e capa de proposta. Isto mostra se o nome conhecido continua a parecer
+                  premium quando sai do contexto do logo.
+                </p>
+              </article>
+              <article class="card">
+                <span class="tag">Fotografia</span>
+                <h3>Projetos reais em primeiro plano</h3>
+                <p>
+                  Usar cozinhas, roupeiros, acabamento em madeira, remodelações completas e
+                  antes/depois bem fotografados. A marca melhora muito mais com boas imagens de obra
+                  do que com ícones genéricos.
+                </p>
+              </article>
+              <article class="card">
+                <span class="tag">Checkatrade</span>
+                <h3>Primeiras imagens mais fortes</h3>
+                <p>
+                  A galeria deve abrir com os melhores projetos premium para aumentar perceção de
+                  valor antes do cliente ler reviews ou pedir orçamento.
+                </p>
+              </article>
+              <article class="card">
+                <span class="tag">Comparação justa</span>
+                <h3>Mesmo nível de apresentação</h3>
+                <p>
+                  Esta proposta não deve parecer menor; ela é simplesmente uma estratégia de menor
+                  risco. Para a decisão final, os mockups Classic Wood devem ter o mesmo cuidado dos
+                  mockups Scigliano.
+                </p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section class="section" id="social">
         <div class="wrap">
           <div class="section-head">
@@ -1476,11 +1695,43 @@
       </section>
     </main>
 
+    <div class="lightbox" id="image-lightbox" aria-hidden="true">
+      <button type="button" aria-label="Fechar imagem">×</button>
+      <img alt="" />
+    </div>
     <footer class="footer">
       <div class="wrap">
         <span>Classic Wood</span>
         <span>Bespoke Joinery & Building | Essex</span>
       </div>
     </footer>
+    <script>
+      const lightbox = document.getElementById("image-lightbox");
+      const lightboxImage = lightbox?.querySelector("img");
+      const closeLightbox = () => {
+        if (!lightbox || !lightboxImage) return;
+        lightbox.classList.remove("is-open");
+        lightbox.setAttribute("aria-hidden", "true");
+        lightboxImage.removeAttribute("src");
+      };
+
+      document.querySelectorAll(".image-frame img").forEach((image) => {
+        image.addEventListener("click", () => {
+          if (!lightbox || !lightboxImage) return;
+          lightboxImage.src = image.currentSrc || image.src;
+          lightboxImage.alt = image.alt || "";
+          lightbox.classList.add("is-open");
+          lightbox.setAttribute("aria-hidden", "false");
+        });
+      });
+
+      lightbox?.addEventListener("click", (event) => {
+        if (event.target === lightbox || event.target.tagName === "BUTTON") closeLightbox();
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeLightbox();
+      });
+    </script>
   </body>
 </html>
