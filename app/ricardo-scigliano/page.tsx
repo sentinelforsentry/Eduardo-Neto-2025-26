@@ -5,25 +5,22 @@ type PageProps = {
   searchParams?: Promise<{
     sent?: string;
     error?: string;
-    dev?: string;
   }>;
 };
 
 function messageForError(error: string | undefined) {
   if (error === "invalid-email") return "Please enter a valid email address.";
   if (error === "invalid-link") return "That magic link is invalid or has expired. Request a new one.";
-  if (error === "email-config") return "Email sending is not configured yet. Check the Resend environment variables.";
+  if (error === "email-config") return "The secure link could not be sent right now. Please try again later.";
   return null;
 }
 
 function LoginGate({
   sent,
   error,
-  dev,
 }: {
   sent?: string;
   error?: string;
-  dev?: string;
 }) {
   const errorMessage = messageForError(error);
 
@@ -66,7 +63,6 @@ function LoginGate({
           {sent ? (
             <p className="mt-4 rounded-lg border border-emerald-400/25 bg-emerald-400/10 p-3 text-sm leading-6 text-emerald-100">
               If that email is allowed, a secure link has been sent. The link expires in 15 minutes.
-              {dev ? " In local development, the link was also printed to the terminal." : null}
             </p>
           ) : null}
 
@@ -77,7 +73,7 @@ function LoginGate({
           ) : null}
 
           <p className="mt-5 text-xs leading-5 text-zinc-500">
-            Access is protected by an HTTP-only session cookie after the magic link is opened.
+            The secure link opens the private proposal area on this device.
           </p>
         </div>
       </section>
@@ -137,7 +133,7 @@ function ProposalsIndex({ email }: { email: string }) {
         </h1>
         <p className="mt-5 text-lg leading-8 text-zinc-300">
           You are signed in as <span className="text-white">{email}</span>. These two options are
-          intentionally separate so Ricardo can compare the strategic direction clearly.
+          intentionally separate so you can compare the strategic direction clearly.
         </p>
       </section>
 
@@ -166,9 +162,9 @@ function ProposalsIndex({ email }: { email: string }) {
         />
       </section>
 
-      <div className="mt-8 rounded-2xl border border-white/10 bg-black/45 p-5 text-sm leading-6 text-zinc-400">
-        Suggested WhatsApp framing: “Option A is a bigger brand move. Option B keeps the known name
-        and improves the presentation. Pick the one that feels most natural for your customers.”
+      <div className="mt-8 rounded-2xl border border-white/10 bg-black/45 p-5 text-sm leading-6 text-zinc-300">
+        The practical implications, brand direction, website strategy and next steps are shown
+        separately so the decision is easier to compare.
       </div>
     </div>
   );
@@ -179,7 +175,7 @@ export default async function RicardoSciglianoPage({ searchParams }: PageProps) 
   const params = await searchParams;
 
   if (!session) {
-    return <LoginGate sent={params?.sent} error={params?.error} dev={params?.dev} />;
+    return <LoginGate sent={params?.sent} error={params?.error} />;
   }
 
   return <ProposalsIndex email={session.email} />;
