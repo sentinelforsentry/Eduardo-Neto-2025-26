@@ -165,7 +165,7 @@ export default function WorkflowDashboardCodeTab() {
             </p>
             <Link
                 className="inline-flex text-xs font-medium text-[#ff8820] hover:underline"
-                href="https://github.com/Eduardo-YGIAH/Eduardo-Neto-2025-26/tree/main/app/components/use-cases/workflow-dashboard"
+                href="https://github.com/sentinelforsentry/Eduardo-Neto-2025-26/tree/main/app/components/use-cases/workflow-dashboard"
                 target="_blank"
                 rel="noreferrer"
             >
